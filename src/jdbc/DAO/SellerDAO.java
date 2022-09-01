@@ -55,4 +55,27 @@ public class SellerDAO {
         }
 
     }
+
+    public void deleteSeller(int sellerId) {
+        Connection conn = DB.getConnection();
+        try {
+            conn.setAutoCommit(false);
+            PreparedStatement ps = conn.prepareStatement(Queries.DELETE_SELLER, Statement.NO_GENERATED_KEYS);
+            ps.setInt(1, sellerId);
+
+            int rowsAffected = ps.executeUpdate();
+            conn.commit();
+            if (rowsAffected > 0) {
+                System.out.println("Deleted. Rows affected: " + rowsAffected);
+            }
+        }
+        catch(SQLException e) {
+            try {
+                conn.rollback();
+                throw new DbException("Transaction rolled back. error: " + e.getMessage());
+            } catch (SQLException ex) {
+                throw new DbException("Error while trying to rollback. error: " + e.getMessage());
+            }
+        }
+    }
 }
