@@ -6,6 +6,8 @@ import jdbc.entities.Seller;
 import jdbc.exceptions.DbException;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class SellerDAO {
 
@@ -76,6 +78,52 @@ public class SellerDAO {
             } catch (SQLException ex) {
                 throw new DbException("Error while trying to rollback. error: " + e.getMessage());
             }
+        }
+    }
+
+    public Seller findById(int id) {
+        Connection conn = DB.getConnection();
+        try {
+            PreparedStatement ps = conn.prepareStatement(Queries.FIND_BY_ID, Statement.NO_GENERATED_KEYS);
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return instantiateSeller(rs);
+            }
+            return null;
+        } catch (SQLException e) {
+            throw new DbException(e.getMessage());
+        }
+    }
+
+    public List<Seller> findAll() {
+        Connection conn = DB.getConnection();
+        try {
+            PreparedStatement ps = conn.prepareStatement(Queries.FIND_ALL, Statement.NO_GENERATED_KEYS);
+            List<Seller> sellers = new ArrayList<>();
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                sellers.add(instantiateSeller(rs));
+            }
+            return sellers;
+        }
+        catch (SQLException e) {
+            throw new DbException(e.getMessage());
+        }
+    }
+    private Seller instantiateSeller(ResultSet rs) {
+        try {
+            Seller seller = new Seller();
+            seller.setId(rs.getInt("Id"));
+            seller.setName(rs.getString("Name"));
+            seller.setEmail(rs.getString("Email"));
+            seller.setBirthDate(rs.getDate("BirthDate"));
+            seller.setBaseSalary(rs.getDouble("BaseSalary"));
+            seller.setDepartmentId(rs.getInt("DepartmentId"));
+            return seller;
+        }
+        catch(SQLException e) {
+            throw new DbException(e.getMessage());
         }
     }
 }

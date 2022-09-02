@@ -10,12 +10,26 @@ public class Seller {
     private Double baseSalary;
     private int departmentId;
 
+    public Seller() {}
+
     public Seller(String name, String email, Date birthDate, Double baseSalary, int departmentId) {
         this.name = name;
         this.email = email;
         this.birthDate = birthDate;
         this.baseSalary = baseSalary;
         this.departmentId = departmentId;
+    }
+
+    @Override
+    public String toString() {
+        return "Seller{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", email='" + email + '\'' +
+                ", birthDate=" + birthDate +
+                ", baseSalary=" + baseSalary +
+                ", departmentId=" + departmentId +
+                '}';
     }
 
     public int getId() {

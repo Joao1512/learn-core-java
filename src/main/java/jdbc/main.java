@@ -9,8 +9,13 @@ import java.sql.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.LinkedHashSet;
+import java.util.List;
 
 public class main {
+
+/*     A JDBC exige a instalação de um driver para o tipo de banco de dados específico a ser usado.
+     Neste exemplo foi usado o mySQL, portanto foi instalado o MySQL connector.*/
+
     static DepartmentDAO departmentDAO = new DepartmentDAO();
     static SellerDAO sellerDAO = new SellerDAO();
     public static void main(String[] args) {
@@ -18,6 +23,8 @@ public class main {
 //        insertSeller();
 //        updateSalary();
 //        deleteSeller();
+//        findById();
+//        findAll();
     }
 
     public static void insertSeller() {
@@ -54,5 +61,16 @@ public class main {
 
     public static void deleteSeller() {
         sellerDAO.deleteSeller(7);
+    }
+
+    public static void findById() {
+        System.out.println(sellerDAO.findById(6));
+    }
+
+    public static void findAll() {
+        List<Seller> sellers = sellerDAO.findAll();
+        sellers.forEach(seller -> {
+            System.out.println(seller.toString());
+        });
     }
 }
