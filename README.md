@@ -1,3 +1,3 @@
-# 🚩Tópicos de Java Básico
+# 🚩LEARN CORE JAVA
 
-- Este repositório contém alguns assuntos básicos os quais escolhi revisar e reforçar.
+- This repository contains essential java concepts and features.
